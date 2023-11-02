@@ -59,11 +59,6 @@ def landmine_detection(frame, frame_center):
     
     return result, distance
 
-# def landmine_processing(center, radius, FRAME_WIDTH, FRAME_HEIGHT):
-    
-#     frame_center = (int(FRAME_WIDTH/2) , int(FRAME_HEIGHT/2))
-#     distance = math.sqrt((frame_center[1]-center[1])**2 + (frame_center[0]-center[0])**2)
-#     return int(distance)
 
 if __name__ == "__main__":
 
@@ -92,8 +87,6 @@ if __name__ == "__main__":
         # Landmine Detection Codeblock
         detection, distance = landmine_detection(frame, frame_center)
 
-        
-        
         # Display the resulting frame
         cv2.imshow('frame', detection)
         if cv2.waitKey(1) == ord('q'):
