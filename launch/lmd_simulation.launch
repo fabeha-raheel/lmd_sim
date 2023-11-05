@@ -11,6 +11,7 @@
         <arg name="headless" default="false" />
         <arg name="world" default="$(find lmd_sim)/worlds/outdoor.world" />
         <arg name="extra_gazebo_args" default="--verbose" />
+        <arg name="fcu_url" default="udp://127.0.0.1:14551@14555" /> 
 
         <!-- include gazebo_ros launcher -->
         <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -23,8 +24,16 @@
                 <arg name="extra_gazebo_args" value="$(arg extra_gazebo_args)" />
         </include>
 
-        <include file="$(find mavros)/launch/apm.launch" />
+        <!-- ArduCopter Node -->
+        <node name="ArduCopter" pkg="lmd_sim" type="startsitl.sh" launch-prefix="gnome-terminal --tab --" />
+ 
+        <!-- MAVROS Node -->
+        <include file="$(find lmd_sim)/launch/apm.launch" >
+                <!-- url for sitl -->
+                <arg name="fcu_url" value="udp://127.0.0.1:14551@14555" />  
+        </include>
 
-        <node name="startsitl" pkg="lmd_sim" type="startsitl.sh" launch-prefix="gnome-terminal --tab --" />
+        <!-- Launch Mission Planner -->
+        <node name="missionplanner" pkg="lmd_sim" type="run_missionplanner.sh" output = "screen" />
         
 </launch>
