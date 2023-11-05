@@ -5,19 +5,17 @@ import math
 import rospy
 from sensor_msgs.msg import NavSatFix
 
-import Lmd_Data
+import drone_data as data
 
 
 DETECT_THRESHOLD = 20
 
-detections = []
+def GPS_Subscriber_callback(mssg):
 
-def GPS_Subscriber_callback(mssg, args):
-
-    data = args[0]
     data.latitude = mssg.latitude
     data.longitude = mssg.longitude
     data.altitude = mssg.altitude
+
 
 def landmine_detection(frame, frame_center):
 
@@ -58,13 +56,19 @@ def landmine_detection(frame, frame_center):
 
         if radius > DETECT_THRESHOLD:
 
-            cv2.circle(result, (int(x), int(y)), int(radius), (0, 0, 255), 2)
-            cv2.circle(result, center, 5, (255,0,0), -1)
-            cv2.rectangle(result, (int(bbox[0]), int(bbox[1])), (int(bbox[0]+bbox[2]), int(bbox[1]+bbox[3])), (0,0,255), 1)
-
             # Computing Distance from center
             distance = math.sqrt((frame_center[1]-center[1])**2 + (frame_center[0]-center[0])**2)
 
+            # Save detection
+            detection = (distance, (data.latitude, data.altitude))
+            data.landmines.append(detection)
+            print("Updates landmines list")
+            print(data.landmines)
+
+            # Frame Visuals
+            cv2.circle(result, (int(x), int(y)), int(radius), (0, 0, 255), 2)
+            cv2.circle(result, center, 5, (255,0,0), -1)
+            cv2.rectangle(result, (int(bbox[0]), int(bbox[1])), (int(bbox[0]+bbox[2]), int(bbox[1]+bbox[3])), (0,0,255), 1)
             cv2.line(result, frame_center, center, (0,255,0), 2) 
     
     return result, distance
@@ -72,9 +76,9 @@ def landmine_detection(frame, frame_center):
 
 if __name__ == "__main__":
 
-    data = Lmd_Data()
-    
-    GPS_Subscriber=rospy.Subscriber('/mavros/global_position/global',NavSatFix, GPS_Subscriber_callback, (data))
+    rospy.init_node('Landmine_Detection') 
+
+    GPS_Subscriber=rospy.Subscriber('/mavros/global_position/global',NavSatFix, GPS_Subscriber_callback)
 
     cap = cv2.VideoCapture(0)
 
