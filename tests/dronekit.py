@@ -3,7 +3,7 @@
 
 from __future__ import print_function
 
-from dronekit import connect, VehicleMode, LocationGlobalRelative, LocationGlobal, Command
+from tests.dronekit import connect, VehicleMode, LocationGlobalRelative, LocationGlobal, Command
 import time
 import math
 from pymavlink import mavutil

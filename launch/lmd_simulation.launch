@@ -23,8 +23,8 @@
                 <arg name="extra_gazebo_args" value="$(arg extra_gazebo_args)" />
         </include>
 
-        <node name="startsitl" pkg="lmd_sim" type="startsitl.sh" launch-prefix="gnome-terminal --tab --" />
+        <include file="$(find mavros)/launch/apm.launch" />
 
-        
+        <node name="startsitl" pkg="lmd_sim" type="startsitl.sh" launch-prefix="gnome-terminal --tab --" />
         
 </launch>

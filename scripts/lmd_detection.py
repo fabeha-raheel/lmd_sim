@@ -5,15 +5,19 @@ import math
 import rospy
 from sensor_msgs.msg import NavSatFix
 
+import Lmd_Data
+
 
 DETECT_THRESHOLD = 20
 
 detections = []
 
-def GPS_Subscriber_callback(mssg):
-    global_GPS_position_Latitude=global_GPS_position.latitude
-    global_GPS_position_Longitude=global_GPS_position.longitude
-    global_GPS_position_Altitude=global_GPS_position.altitude
+def GPS_Subscriber_callback(mssg, args):
+
+    data = args[0]
+    data.latitude = mssg.latitude
+    data.longitude = mssg.longitude
+    data.altitude = mssg.altitude
 
 def landmine_detection(frame, frame_center):
 
@@ -68,7 +72,9 @@ def landmine_detection(frame, frame_center):
 
 if __name__ == "__main__":
 
-    GPS_Subscriber=rospy.Subscriber('/mavros/global_position/global',NavSatFix, Global_GPS_Position_CallBack)
+    data = Lmd_Data()
+    
+    GPS_Subscriber=rospy.Subscriber('/mavros/global_position/global',NavSatFix, GPS_Subscriber_callback, (data))
 
     cap = cv2.VideoCapture(0)
 
