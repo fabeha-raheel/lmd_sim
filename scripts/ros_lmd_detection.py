@@ -3,12 +3,16 @@ import numpy as np
 import imutils
 import math
 import rospy
-from sensor_msgs.msg import NavSatFix
+from sensor_msgs.msg import NavSatFix, Image
+from cv_bridge import CvBridge
+from cv_bridge import CvBridgeError
 
 import drone_data as data
 
 
 DETECT_THRESHOLD = 20
+
+bridge = CvBridge()
 
 def GPS_Subscriber_callback(mssg):
 
@@ -16,6 +20,11 @@ def GPS_Subscriber_callback(mssg):
     data.longitude = mssg.longitude
     data.altitude = mssg.altitude
 
+def roscamera_callback(mssg):
+    try:
+        data.roscamera_cvImage = bridge.imgmsg_to_cv2(mssg, "bgr8")
+    except CvBridgeError as e:
+        print('Error converting ROS Image to CV: ', e)
 
 def landmine_detection(frame, frame_center):
 
@@ -69,15 +78,14 @@ def landmine_detection(frame, frame_center):
                 gps_distance = get_distance_metres(location, landmine[1])
                 
                 if gps_distance < 2:
-                    print('GPS distance is: ', gps_distance)
                     landmine_present = True
 
                     if distance < landmine[0]:
                         #update the location
-                        print("Updating landmine")
+                        # print("Updating landmine")
                         index = data.landmines.index(landmine)
                         data.landmines[index] = (distance,location)
-                        print("Updated landmine")
+                        print("Updated existing landmine...")
                         print(data.landmines)
                         break
                     else:
@@ -87,16 +95,21 @@ def landmine_detection(frame, frame_center):
             if landmine_present == False:
                 detection = (distance, location)
                 data.landmines.append(detection)
-                print("Updates landmines list")
+                print("New land mine found...")
                 print(data.landmines)
 
             # Frame Visuals
-            cv2.circle(result, (int(x), int(y)), int(radius), (0, 0, 255), 2)
-            cv2.circle(result, center, 5, (255,0,0), -1)
-            cv2.rectangle(result, (int(bbox[0]), int(bbox[1])), (int(bbox[0]+bbox[2]), int(bbox[1]+bbox[3])), (0,0,255), 1)
-            cv2.line(result, frame_center, center, (0,255,0), 2) 
+            # cv2.circle(result, (int(x), int(y)), int(radius), (0, 0, 255), 2)
+            # cv2.circle(result, center, 5, (255,0,0), -1)
+            # cv2.rectangle(result, (int(bbox[0]), int(bbox[1])), (int(bbox[0]+bbox[2]), int(bbox[1]+bbox[3])), (0,0,255), 1)
+            # cv2.line(result, frame_center, center, (0,255,0), 2) 
+
+            cv2.circle(frame, (int(x), int(y)), int(radius), (0, 0, 255), 2)
+            cv2.circle(frame, center, 5, (255,0,0), -1)
+            cv2.rectangle(frame, (int(bbox[0]), int(bbox[1])), (int(bbox[0]+bbox[2]), int(bbox[1]+bbox[3])), (0,0,255), 1)
+            cv2.line(frame, frame_center, center, (0,255,0), 2) 
     
-    return result, distance
+    return frame, distance
 
 def get_distance_metres(aLocation1, aLocation2):
     """
@@ -118,37 +131,46 @@ if __name__ == "__main__":
     rospy.init_node('Landmine_Detection') 
 
     GPS_Subscriber=rospy.Subscriber('/mavros/global_position/global',NavSatFix, GPS_Subscriber_callback)
+    roscamera=rospy.Subscriber("/webcam/image_raw", Image, roscamera_callback)
 
-    cap = cv2.VideoCapture(0)
+    # cap = cv2.VideoCapture(0)
 
-    if not cap.isOpened():
-        print("Cannot open camera")
-        exit()
-    else:
-        FRAME_WIDTH = cap.get(cv2.CAP_PROP_FRAME_WIDTH )
-        FRAME_HEIGHT = cap.get(cv2.CAP_PROP_FRAME_HEIGHT )
-        # FRAME_FPS =  cap.get(cv2.CAP_PROP_FPS)
+    # if not cap.isOpened():
+    #     print("Cannot open camera")
+    #     exit()
+    # else:
+    #     FRAME_WIDTH = cap.get(cv2.CAP_PROP_FRAME_WIDTH )
+    #     FRAME_HEIGHT = cap.get(cv2.CAP_PROP_FRAME_HEIGHT )
+    #     # FRAME_FPS =  cap.get(cv2.CAP_PROP_FPS)
 
-        frame_center = (int(FRAME_WIDTH/2) , int(FRAME_HEIGHT/2))
+    #     frame_center = (int(FRAME_WIDTH/2) , int(FRAME_HEIGHT/2))
+    
+    while data.roscamera_cvImage is None:
+        # wait
+        pass
+
+    FRAME_WIDTH, FRAME_HEIGHT, _ = data.roscamera_cvImage.shape
+    frame_center = (int(FRAME_WIDTH/2) , int(FRAME_HEIGHT/2))
+    print("Stored frame data....")
 
     while True:
 
-        # Capture frame-by-frame
-        ret, frame = cap.read()
+        # # Capture frame-by-frame
+        # ret, frame = cap.read()
         
-        # if frame is read correctly ret is True
-        if not ret:
-            print("Can't receive frame (stream end?). Exiting ...")
-            break
+        # # if frame is read correctly ret is True
+        # if not ret:
+        #     print("Can't receive frame (stream end?). Exiting ...")
+        #     break
         
         # Landmine Detection Codeblock
-        detection, distance = landmine_detection(frame, frame_center)
+        detection, distance = landmine_detection(data.roscamera_cvImage, frame_center)
 
         # Display the resulting frame
         cv2.imshow('frame', detection)
         if cv2.waitKey(1) == ord('q'):
             break
 
-    # When everything done, release the capture
-    cap.release()
+    # # When everything done, release the capture
+    # cap.release()
     cv2.destroyAllWindows()
