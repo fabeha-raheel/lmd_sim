@@ -91,12 +91,17 @@ def landmine_detection(frame, frame_center):
                 print(data.landmines)
 
             # Frame Visuals
-            cv2.circle(result, (int(x), int(y)), int(radius), (0, 0, 255), 2)
-            cv2.circle(result, center, 5, (255,0,0), -1)
-            cv2.rectangle(result, (int(bbox[0]), int(bbox[1])), (int(bbox[0]+bbox[2]), int(bbox[1]+bbox[3])), (0,0,255), 1)
-            cv2.line(result, frame_center, center, (0,255,0), 2) 
+            # cv2.circle(result, (int(x), int(y)), int(radius), (0, 0, 255), 2)
+            # cv2.circle(result, center, 5, (255,0,0), -1)
+            # cv2.rectangle(result, (int(bbox[0]), int(bbox[1])), (int(bbox[0]+bbox[2]), int(bbox[1]+bbox[3])), (0,0,255), 1)
+            # cv2.line(result, frame_center, center, (0,255,0), 2)
+
+            cv2.circle(frame, (int(x), int(y)), int(radius), (0, 0, 255), 2)
+            cv2.circle(frame, center, 5, (255,0,0), -1)
+            cv2.rectangle(frame, (int(bbox[0]), int(bbox[1])), (int(bbox[0]+bbox[2]), int(bbox[1]+bbox[3])), (0,0,255), 1)
+            cv2.line(frame, frame_center, center, (0,255,0), 2) 
     
-    return result, distance
+    return frame, distance
 
 def get_distance_metres(aLocation1, aLocation2):
     """
@@ -145,7 +150,7 @@ if __name__ == "__main__":
         detection, distance = landmine_detection(frame, frame_center)
 
         # Display the resulting frame
-        cv2.imshow('frame', detection)
+        cv2.imshow('Drone Video Feed', detection)
         if cv2.waitKey(1) == ord('q'):
             break
 
