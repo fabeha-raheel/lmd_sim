@@ -1,3 +1,5 @@
+#!/bin/python
+
 import cv2
 import numpy as np
 import imutils
@@ -98,12 +100,6 @@ def landmine_detection(frame, frame_center):
                 print("New land mine found...")
                 print(data.landmines)
 
-            # Frame Visuals
-            # cv2.circle(result, (int(x), int(y)), int(radius), (0, 0, 255), 2)
-            # cv2.circle(result, center, 5, (255,0,0), -1)
-            # cv2.rectangle(result, (int(bbox[0]), int(bbox[1])), (int(bbox[0]+bbox[2]), int(bbox[1]+bbox[3])), (0,0,255), 1)
-            # cv2.line(result, frame_center, center, (0,255,0), 2) 
-
             cv2.circle(frame, (int(x), int(y)), int(radius), (0, 0, 255), 2)
             cv2.circle(frame, center, 5, (255,0,0), -1)
             cv2.rectangle(frame, (int(bbox[0]), int(bbox[1])), (int(bbox[0]+bbox[2]), int(bbox[1]+bbox[3])), (0,0,255), 1)
@@ -132,18 +128,6 @@ if __name__ == "__main__":
 
     GPS_Subscriber=rospy.Subscriber('/mavros/global_position/global',NavSatFix, GPS_Subscriber_callback)
     roscamera=rospy.Subscriber("/webcam/image_raw", Image, roscamera_callback)
-
-    # cap = cv2.VideoCapture(0)
-
-    # if not cap.isOpened():
-    #     print("Cannot open camera")
-    #     exit()
-    # else:
-    #     FRAME_WIDTH = cap.get(cv2.CAP_PROP_FRAME_WIDTH )
-    #     FRAME_HEIGHT = cap.get(cv2.CAP_PROP_FRAME_HEIGHT )
-    #     # FRAME_FPS =  cap.get(cv2.CAP_PROP_FPS)
-
-    #     frame_center = (int(FRAME_WIDTH/2) , int(FRAME_HEIGHT/2))
     
     while data.roscamera_cvImage is None:
         # wait
@@ -154,14 +138,6 @@ if __name__ == "__main__":
     print("Stored frame data....")
 
     while True:
-
-        # # Capture frame-by-frame
-        # ret, frame = cap.read()
-        
-        # # if frame is read correctly ret is True
-        # if not ret:
-        #     print("Can't receive frame (stream end?). Exiting ...")
-        #     break
         
         # Landmine Detection Codeblock
         detection, distance = landmine_detection(data.roscamera_cvImage, frame_center)
@@ -171,6 +147,5 @@ if __name__ == "__main__":
         if cv2.waitKey(1) == ord('q'):
             break
 
-    # # When everything done, release the capture
-    # cap.release()
+    # When everything done, release the capture
     cv2.destroyAllWindows()
