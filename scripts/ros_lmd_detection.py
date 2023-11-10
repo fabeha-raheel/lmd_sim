@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/env python
 
 import cv2
 import numpy as np
@@ -8,8 +8,9 @@ import rospy
 from sensor_msgs.msg import NavSatFix, Image
 from cv_bridge import CvBridge
 from cv_bridge import CvBridgeError
+import pickle
 
-import drone_data as data
+import drone_data
 
 
 DETECT_THRESHOLD = 20
@@ -18,13 +19,13 @@ bridge = CvBridge()
 
 def GPS_Subscriber_callback(mssg):
 
-    data.latitude = mssg.latitude
-    data.longitude = mssg.longitude
-    data.altitude = mssg.altitude
+    drone_data.latitude = mssg.latitude
+    drone_data.longitude = mssg.longitude
+    drone_data.altitude = mssg.altitude
 
 def roscamera_callback(mssg):
     try:
-        data.roscamera_cvImage = bridge.imgmsg_to_cv2(mssg, "bgr8")
+        drone_data.roscamera_cvImage = bridge.imgmsg_to_cv2(mssg, "bgr8")
     except CvBridgeError as e:
         print('Error converting ROS Image to CV: ', e)
 
@@ -71,11 +72,11 @@ def landmine_detection(frame, frame_center):
             distance = int(math.sqrt((frame_center[1]-center[1])**2 + (frame_center[0]-center[0])**2))
 
             # Save detection
-            location = (data.latitude, data.longitude)
+            location = (drone_data.latitude, drone_data.longitude)
 
             landmine_present = False
 
-            for landmine in data.landmines:
+            for landmine in drone_data.landmines:
 
                 gps_distance = get_distance_metres(location, landmine[1])
                 
@@ -85,10 +86,11 @@ def landmine_detection(frame, frame_center):
                     if distance < landmine[0]:
                         #update the location
                         # print("Updating landmine")
-                        index = data.landmines.index(landmine)
-                        data.landmines[index] = (distance,location)
+                        index = drone_data.landmines.index(landmine)
+                        drone_data.landmines[index] = (distance,location)
+                        write_to_log(drone_data.landmines)
                         print("Updated existing landmine...")
-                        print(data.landmines)
+                        print(drone_data.landmines)
                         break
                     else:
                         #no need to update and check with other landmine
@@ -96,9 +98,10 @@ def landmine_detection(frame, frame_center):
                 
             if landmine_present == False:
                 detection = (distance, location)
-                data.landmines.append(detection)
+                drone_data.landmines.append(detection)
+                write_to_log(drone_data.landmines)
                 print("New land mine found...")
-                print(data.landmines)
+                print(drone_data.landmines)
 
             cv2.circle(frame, (int(x), int(y)), int(radius), (0, 0, 255), 2)
             cv2.circle(frame, center, 5, (255,0,0), -1)
@@ -106,6 +109,16 @@ def landmine_detection(frame, frame_center):
             cv2.line(frame, frame_center, center, (0,255,0), 2) 
     
     return frame, distance
+
+def write_to_log(data):
+
+    f = open('/home/ugv/lmd_ws/src/lmd_sim/logs/lmd_data.pickle', 'wb')
+    pickle.dump(data, f)
+    f.close()
+        
+    # with open('/home/ugv/lmd_ws/src/lmd_sim/logs/lmd_data.pickle', 'wb') as f:
+    #     print("Writing data to log: ", data)
+    #     pickle.dump(data, f)
 
 def get_distance_metres(aLocation1, aLocation2):
     """
@@ -129,18 +142,18 @@ if __name__ == "__main__":
     GPS_Subscriber=rospy.Subscriber('/mavros/global_position/global',NavSatFix, GPS_Subscriber_callback)
     roscamera=rospy.Subscriber("/webcam/image_raw", Image, roscamera_callback)
     
-    while data.roscamera_cvImage is None:
+    while drone_data.roscamera_cvImage is None:
         # wait
         pass
 
-    FRAME_WIDTH, FRAME_HEIGHT, _ = data.roscamera_cvImage.shape
+    FRAME_WIDTH, FRAME_HEIGHT, _ = drone_data.roscamera_cvImage.shape
     frame_center = (int(FRAME_WIDTH/2) , int(FRAME_HEIGHT/2))
     print("Stored frame data....")
 
     while True:
         
         # Landmine Detection Codeblock
-        detection, distance = landmine_detection(data.roscamera_cvImage, frame_center)
+        detection, distance = landmine_detection(drone_data.roscamera_cvImage, frame_center)
 
         # Display the resulting frame
         cv2.imshow('frame', detection)

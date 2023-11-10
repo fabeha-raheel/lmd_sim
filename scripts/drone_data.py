@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 latitude = None
 longitude = None
 altitude = None
