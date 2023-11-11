@@ -12,7 +12,7 @@ class MappingApp(tk.Tk):
         super().__init__(*args, **kwargs)
 
         self.title('Landmine Mapping GUI')
-        self.geometry('1000x700')
+        self.geometry('500x500')
 
         self.locations = drone_data.landmines
         self.inital_zoom = 20
@@ -25,6 +25,7 @@ class MappingApp(tk.Tk):
         self.map_widget = tkintermapview.TkinterMapView(self.labelFrame, width=1000, height=700, corner_radius=0)
         self.map_widget.pack(fill="both", expand=True)
         self.map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)  # google satellite
+        # self.map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga", max_zoom=22)  # google normal
         self.map_widget.set_position(self.initial_position[0], self.initial_position[1])
         self.map_widget.set_zoom(self.inital_zoom)
 
@@ -38,13 +39,13 @@ class MappingApp(tk.Tk):
     
     def update_map(self):
         self.read_data()
-        print("Updating Map...")
-        print("Landmines: ", self.locations)
+        # print("Updating Map...")
+        # print("Landmines: ", self.locations)
 
         if len(self.markers) == 0:
             for location in self.locations:
                 index = self.locations.index(location)
-                text = "Landmine " + str(index)
+                text = "Landmine " + str(index + 1)
                 self.markers.append(self.map_widget.set_marker(location[1][0], location[1][1], text=text))
         elif len(self.markers) < len(self.locations):
             for i in range(len(self.locations)):
@@ -53,7 +54,7 @@ class MappingApp(tk.Tk):
                     self.markers[i].set_position(self.locations[i][1][0], self.locations[i][1][1])
                 else:
                     index = i
-                    text = "Landmine " + str(index)
+                    text = "Landmine " + str(index + 1)
                     self.markers.append(self.map_widget.set_marker(self.locations[i][1][0], self.locations[i][1][1], text=text))
         else:
             for location in self.locations:
@@ -61,12 +62,12 @@ class MappingApp(tk.Tk):
                 self.markers[index].set_position(location[1][0], location[1][1])
 
         # self.map_widget.pack()
-        self.map_widget.after(10, self.update_map)
+        self.map_widget.after(100, self.update_map)
     
     def read_data(self):
         f = open('/home/ugv/lmd_ws/src/lmd_sim/logs/lmd_data.pickle', 'rb')
         data = pickle.load(f)
-        print(data)
+        print("Mapping Landmine : ", data)
         self.locations = data
         f.close()
         # with open('/home/ugv/lmd_ws/src/lmd_sim/logs/lmd_data.pickle', 'rb') as f:

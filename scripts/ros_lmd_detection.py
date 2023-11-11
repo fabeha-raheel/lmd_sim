@@ -137,6 +137,10 @@ def get_distance_metres(aLocation1, aLocation2):
 
 if __name__ == "__main__":
 
+    drone_data.landmines = []
+
+    write_to_log(drone_data.landmines)
+
     rospy.init_node('Landmine_Detection') 
 
     GPS_Subscriber=rospy.Subscriber('/mavros/global_position/global',NavSatFix, GPS_Subscriber_callback)
@@ -150,13 +154,20 @@ if __name__ == "__main__":
     frame_center = (int(FRAME_WIDTH/2) , int(FRAME_HEIGHT/2))
     print("Stored frame data....")
 
+    scale_percent = 80 # percent of original size
+    width = 500
+    height = 500
+    dim = (width, height)
+
     while True:
         
         # Landmine Detection Codeblock
         detection, distance = landmine_detection(drone_data.roscamera_cvImage, frame_center)
 
         # Display the resulting frame
-        cv2.imshow('frame', detection)
+        # resize image
+        resized = cv2.resize(detection, dim, interpolation = cv2.INTER_AREA)
+        cv2.imshow('Drone Video Feed', resized)
         if cv2.waitKey(1) == ord('q'):
             break
 

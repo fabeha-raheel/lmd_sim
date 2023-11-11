@@ -36,6 +36,9 @@
         <!-- Landmine Detection Node -->
         <node name="Landmine_Detection" pkg="lmd_sim" type="ros_lmd_detection.py" output="screen" />
 
+        <!-- Landmine Mapping Node -->
+        <node name="Landmine_Mapping" pkg="lmd_sim" type="ros_lmd_mapping.py" output="screen" />
+
         <!-- Launch Mission Planner -->
         <!-- <node name="missionplanner" pkg="lmd_sim" type="run_missionplanner.sh" output = "screen" /> -->
         
