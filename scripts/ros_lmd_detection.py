@@ -89,8 +89,8 @@ def landmine_detection(frame, frame_center):
                         index = drone_data.landmines.index(landmine)
                         drone_data.landmines[index] = (distance,location)
                         write_to_log(drone_data.landmines)
-                        print("Updated existing landmine...")
-                        print(drone_data.landmines)
+                        # print("Updated existing landmine...")
+                        # print(drone_data.landmines)
                         break
                     else:
                         #no need to update and check with other landmine
@@ -100,8 +100,8 @@ def landmine_detection(frame, frame_center):
                 detection = (distance, location)
                 drone_data.landmines.append(detection)
                 write_to_log(drone_data.landmines)
-                print("New land mine found...")
-                print(drone_data.landmines)
+                # print("New land mine found...")
+                # print(drone_data.landmines)
 
             cv2.circle(frame, (int(x), int(y)), int(radius), (0, 0, 255), 2)
             cv2.circle(frame, center, 5, (255,0,0), -1)
