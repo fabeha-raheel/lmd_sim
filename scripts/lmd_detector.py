@@ -107,3 +107,30 @@ if __name__ == "__main__":
         pass
 
     find_landmines()
+
+
+'''
+How to run this code:
+
+Connect the signal from the landmine detector to the Jetson Nano GPIO Pins. Specify the pin number in the DETECTOR_CHANNEL variable.
+
+In order to run the Drone simulation on a separate computer, we need to configure the master slave communication.
+Get the IP of the Jetson Nano using the ifconfig command. Save it.
+Modify the .bashrc file in the Jetson Nano with the following lines:
+export ROS_MASTER_URI=http://localhost:11311/
+export ROS_HOSTNAME=<IP_address_of_Jetson>
+export ROS_IP=<IP_address_of_Jetson>
+
+Then get the IP address of your PC using ifconfig and modify its .bashrc file as follows:
+export ROS_MASTER_URI=http://<IP_address_of_Jetson>:11311/
+export ROS_HOSTNAME=<IP_address_of_PC>
+export ROS_IP=<IP_address_of_PC>
+
+Now run the lmd_detector simulation in your PC using "roslaunch lmd_sim lmd_detector_simulation.launch" command.
+
+You should be able to access the mavros topics on the Jetson Nano when you run rostopic list.
+
+Run the following file in the Jetson Nano to detect the landmines and save their GPS coordinates:
+roscd lmd_sim/scripts && ./lmd_detector.py
+Make sure that the file has executable permissions using sudo chmod +x *.*
+'''
