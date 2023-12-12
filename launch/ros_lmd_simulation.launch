@@ -9,7 +9,7 @@
         <arg name="gui" default="true" />
         <arg name="pause" default="false" />
         <arg name="headless" default="false" />
-        <arg name="world" default="$(find lmd_sim)/worlds/outdoor.world" />
+        <arg name="world" default="$(find lmd_sim)/worlds/outdoor.world" />     <!-- add your world file here -->
         <arg name="extra_gazebo_args" default="--verbose" />
         <arg name="fcu_url" default="udp://127.0.0.1:14551@14555" /> 
 
@@ -39,7 +39,7 @@
         <!-- Landmine Mapping Node -->
         <node name="Landmine_Mapping" pkg="lmd_sim" type="ros_lmd_mapping.py" output="screen" />
 
-        <!-- Launch Mission Planner -->
+        <!-- Mission Planner Node -->
         <!-- <node name="missionplanner" pkg="lmd_sim" type="run_missionplanner.sh" output = "screen" /> -->
         
 </launch>
