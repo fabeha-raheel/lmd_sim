@@ -34,7 +34,7 @@
         </include>
 
         <!-- Landmine Detection Node -->
-        <node name="Landmine_Detection" pkg="lmd_sim" type="lmd_detector.py" output="screen" />
+        <!-- <node name="Landmine_Detection" pkg="lmd_sim" type="lmd_detector.py" output="screen" /> -->
 
         <!-- Landmine Mapping Node -->
         <!-- <node name="Landmine_Mapping" pkg="lmd_sim" type="ros_lmd_mapping.py" output="screen" /> -->
