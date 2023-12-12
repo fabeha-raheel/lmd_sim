@@ -22,14 +22,27 @@ The following packages also need to be installed:
 
     To install tkintermapview, refer to the following page: https://github.com/TomSchimansky/TkinterMapView
 
+3. Mission Planner (optional)
+
+    By default, Mission Planner is not supported by Ubuntu / Linux platforms. However, you can install Mission Planner by following the guidelines provided by this link. (add link)
+
 ## Running the Simulation
 
 1. Download Mission Planner on Linux and run it in one terminal.
 2. Run the following launch file in the second terminal:
-```bash
-roslaunch lmd_sim lmd_simulation.launch
-```
-3. Adjust the windows: MavProxy console, ArduCopter terminal & Gazebo Simulator.
-4. Right-click on the drone model in Gazebo and select Follow.
-5. Open the Mission waypoints file and write it to the drone.
-6. Shift drone to Auto Mode.         
+    ```bash
+    roslaunch lmd_sim lmd_simulation.launch
+    ```
+    This will launch the Gazebo world with the Ardupilot drone. 
+3. Use Mission Planner to connect with the drone. Plan an Autonomous searching mission and write it to the drone. Also save the misison waypoints for future missions.
+4. Adjust the windows: MavProxy console, ArduCopter terminal, Gazebo Simulator, Drone Video Screen & Tkinter Mapping GUI.
+5. Right-click on the drone model in Gazebo and select Follow.
+6. Shift the Drone to Auto Mode using the following MAV commands:
+    ```bash
+    mode guided
+    arm throttle
+    takeoff 1
+    mode auto
+    ```
+    
+## Video Demonstration
