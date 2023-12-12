@@ -1,7 +1,13 @@
 # Realtime Landmine Detection and Mapping Drone - ROS-Gazebo Simulation
 This package simulates an autonomous landmine detection and mapping drone. For the purposes of simulation, landmines are recognized using computer vision / image processing techniques by detecting their characteristic red color. Once the landmines are detected, the drone records their GPS coordinates and updates them on a map.
 
-## Installations
+## Contents
+
+1. Pre-requisites
+2. Package Installation
+2. Running the Simulation
+
+## Pre-requisites
 The package was tested on Ubuntu 20.04 with ROS Noetic and Gazebo installed. Instructions regarding installation of ROS Noetic can be found here. (add a hyperlink.)
 
 The following packages also need to be installed:
@@ -25,6 +31,24 @@ The following packages also need to be installed:
 3. Mission Planner (optional)
 
     By default, Mission Planner is not supported by Ubuntu / Linux platforms. However, you can install Mission Planner by following the guidelines provided by this link. (add link)
+
+## Package Installation
+
+To install the lmd_sim package, first create a new workspace directory similar to catkin_ws in your home directory:
+```bash
+cd
+mkdir -p lmd_ws/src
+cd lmd_ws/
+catkin_make
+```
+
+Then clone the lmd_sim repository inside src:
+```bash
+cd ~/lmd_ws/src
+git clone https://github.com/fabeha-raheel/lmd_sim.git
+```
+
+Then, select a branch to run.
 
 ## Running the Simulation
 
