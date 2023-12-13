@@ -39,10 +39,10 @@ def find_landmines():
                 if (previous_state == False and detected == True) or (previous_state == True and detected == True):
                     # increment counter
                     counter += 1
-                    previous_state = detected
                 elif previous_state == True and detected == False:
                     # reset counter
                     counter = 0
+                previous_state = detected
 
                 # Check if landmines is already saved
                 landmine_present = False
