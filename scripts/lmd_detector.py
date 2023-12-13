@@ -141,4 +141,8 @@ You should be able to access the mavros topics on the Jetson Nano when you run r
 Run the following file in the Jetson Nano to detect the landmines and save their GPS coordinates:
 roscd lmd_sim/scripts && ./lmd_detector.py
 Make sure that the file has executable permissions using sudo chmod +x *.*
+
+After all the landmine locations are saved to the log file, you can visualize the locations on a Map:
+roscd lmd_sim/scripts && ./offline-mapping.py
+Make sure that the file has executable permissions using sudo chmod +x *.*
 '''
