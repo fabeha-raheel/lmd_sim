@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import Jetson.GPIO as GPIO
 import math
@@ -11,6 +11,7 @@ import drone_data as data
 
 DETECTOR_CHANNEL = 11
 LOG_FILEPATH = '/home/df/lmd_ws/src/lmd_sim/logs/lmd_data.pickle'
+MAPPING_LOG = '/home/df/lmd_ws/src/lmd_sim/logs/lmd_data.txt'
 
 def GPS_Subscriber_callback(mssg):
 
@@ -58,6 +59,7 @@ def find_landmines():
                             print("Updated landmine")
                             print(data.landmines)
                             write_to_log(data.landmines)
+                            # save_log(data.landmines)
                             break
                         else:
                             #no need to update and check with other landmine
@@ -70,6 +72,7 @@ def find_landmines():
                     print("Adding new Landmine")
                     print(data.landmines)
                     write_to_log(data.landmines)
+                    # save_log(data.landmines)
 
     finally:
         GPIO.cleanup()
@@ -93,6 +96,11 @@ def write_to_log(data):
     f = open(LOG_FILEPATH, 'wb')
     pickle.dump(data, f)
     f.close()
+
+def save_log(data):
+
+    with open(MAPPING_LOG, 'w') as f:
+        f.write(str(data))
 
 if __name__ == "__main__":
 
