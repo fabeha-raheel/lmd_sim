@@ -6,7 +6,7 @@ import pickle
 
 import drone_data
 
-MAPPING_LOG = '/home/df/lmd_ws/src/lmd_sim/logs/lmd_data.txt'
+MAPPING_LOG = '/home/df/lmd_ws/src/lmd_sim/logs/lmd_data.pickle'
 
 class MappingApp(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -40,9 +40,16 @@ class MappingApp(tk.Tk):
             text = "Landmine " + str(index + 1)
             self.markers.append(self.map_widget.set_marker(location[1][0], location[1][1], text=text))
     
+    # def read_data(self):
+    #     f = open(MAPPING_LOG, 'r')
+    #     data = list(f.read())
+    #     print("Mapping Landmine : ", data)
+    #     self.locations = data
+    #     f.close()
+
     def read_data(self):
-        f = open(MAPPING_LOG, 'r')
-        data = list(f.read())
+        f = open(MAPPING_LOG, 'rb')
+        data = pickle.load(f)
         print("Mapping Landmine : ", data)
         self.locations = data
         f.close()

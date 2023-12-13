@@ -58,8 +58,8 @@ def find_landmines():
                             data.landmines[index] = (counter, location)
                             print("Updated landmine")
                             print(data.landmines)
-                            # write_to_log(data.landmines)
-                            save_log(data.landmines)
+                            write_to_log(data.landmines)
+                            # save_log(data.landmines)
                             break
                         else:
                             #no need to update and check with other landmine
@@ -71,8 +71,8 @@ def find_landmines():
                     data.landmines.append(detection)
                     print("Adding new Landmine")
                     print(data.landmines)
-                    # write_to_log(data.landmines)
-                    save_log(data.landmines)
+                    write_to_log(data.landmines)
+                    # save_log(data.landmines)
 
     finally:
         GPIO.cleanup()
