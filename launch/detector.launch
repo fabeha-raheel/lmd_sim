@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<launch>
+    <!-- MAVROS Node -->
+    <include file="$(find lmd_sim)/launch/apm.launch" >
+            <!-- url for sitl -->
+            <arg name="fcu_url" value="/dev/ttyACM0" />  
+    </include>
+
+
+    <!-- Landmine Detection Node -->
+    <node name="Landmine_Detection" pkg="lmd_sim" type="lmd_detector.py" output="screen" />
+
+</launch>
