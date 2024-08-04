@@ -13,7 +13,7 @@ import pickle
 import drone_data
 
 
-DETECT_THRESHOLD = 20
+DETECT_THRESHOLD = 5
 
 bridge = CvBridge()
 
@@ -80,7 +80,7 @@ def landmine_detection(frame, frame_center):
 
                 gps_distance = get_distance_metres(location, landmine[1])
                 
-                if gps_distance < 2:
+                if gps_distance < 6:
                     landmine_present = True
 
                     if distance < landmine[0]:
@@ -112,7 +112,7 @@ def landmine_detection(frame, frame_center):
 
 def write_to_log(data):
 
-    f = open('/home/ugv/lmd_ws/src/lmd_sim/logs/lmd_data.pickle', 'wb')
+    f = open('/home/aeel/catkin_ws/src/lmd_sim/logs/lmd_data.pickle', 'wb')
     pickle.dump(data, f)
     f.close()
         

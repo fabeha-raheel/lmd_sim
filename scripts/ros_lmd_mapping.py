@@ -65,7 +65,7 @@ class MappingApp(tk.Tk):
         self.map_widget.after(100, self.update_map)
     
     def read_data(self):
-        f = open('/home/ugv/lmd_ws/src/lmd_sim/logs/lmd_data.pickle', 'rb')
+        f = open('/home/aeel/catkin_ws/src/lmd_sim/logs/lmd_data.pickle', 'rb')
         data = pickle.load(f)
         print("Mapping Landmine : ", data)
         self.locations = data
