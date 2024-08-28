@@ -3,10 +3,9 @@ import tkinter as tk
 import tkintermapview
 from tkinter import ttk
 import pickle
-
 import drone_data
 
-MAPPING_LOG = '/home/df/lmd_ws/src/lmd_sim/logs/lmd_data.pickle'
+MAPPING_LOG = '/home/aeel/catkin_ws/src/lmd_sim/logs/lmd_data.pickle'
 
 class MappingApp(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -17,7 +16,7 @@ class MappingApp(tk.Tk):
 
         self.locations = drone_data.landmines
         self.inital_zoom = 20
-        self.initial_position = (-35.3632621, 149.1652374)
+        self.initial_position = (24.1468854, 47.2700895)
         self.markers = []
 
         self.labelFrame = tk.LabelFrame(self)

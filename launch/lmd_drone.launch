@@ -1,0 +1,7 @@
+<launch>
+	<include file="$(find lmd_sim)/launch/apm.launch">
+	</include>
+    <!-- lmd Mechanism Control Node -->
+    <node name="LMD_Mechanism" pkg="lmd_sim" type="rc_esp.py" output="screen" />
+    <node name="LMD_Detection" pkg="lmd_sim" type="lmd_detection.py" output="screen" />
+</launch>
