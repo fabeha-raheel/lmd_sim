@@ -11,7 +11,7 @@ from std_msgs.msg import Int16
 
 # Configure the serial port
 lmd_sense = 0
-LOG_FILEPATH = '/home/df/lmd_ws/src/lmd_sim/logs/lmd_data.pickle'
+LOG_FILEPATH = '/home/pi/catkin_ws/src/lmd_sim/logs/lmd_data.pickle'
 
 def GPS_Subscriber_callback(mssg):
 
