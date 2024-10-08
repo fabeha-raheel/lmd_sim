@@ -9,9 +9,22 @@ from sensor_msgs.msg import NavSatFix
 import drone_data as data
 from std_msgs.msg import Int16
 
+import rospkg
+import sys
+import datetime
+
+try:
+    pkg_path = rospkg.RosPack().get_path('lmd_sim')
+except:
+    print("Unable to locate package path. Try sourcing your ROS workspace.")
+    sys.exit()
+
 # Configure the serial port
 lmd_sense = 0
-LOG_FILEPATH = '/home/pi/catkin_ws/src/lmd_sim/logs/lmd_data.pickle'
+
+log_filename = 'lmd_data_' + datetime.datetime.strftime(datetime.datetime.now(), '%Y%m%d%H%M%S_%f') + '.pickle'
+#LOG_FILEPATH = '/home/pi/catkin_ws/src/lmd_sim/logs/lmd_data.pickle'
+LOG_FILEPATH = pkg_path + '/logs/' + log_filename
 
 def GPS_Subscriber_callback(mssg):
 
