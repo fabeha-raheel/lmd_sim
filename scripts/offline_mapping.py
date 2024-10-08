@@ -5,7 +5,7 @@ from tkinter import ttk
 import pickle
 import drone_data
 
-MAPPING_LOG = '/home/aeel/catkin_ws/src/lmd_sim/logs/lmd_data.pickle'
+MAPPING_LOG = '/home/aeel/catkin_ws/src/lmd_sim/logs/lmd_data_20241008085513_208345.pickle'
 
 class MappingApp(tk.Tk):
     def __init__(self, *args, **kwargs):
