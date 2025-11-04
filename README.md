@@ -54,7 +54,7 @@ Python packages for OpenCV, ROSCVBridge, Imutils, Pickle, Tkinter and [Tkinterma
 
 To install tkintermapview, refer to the following page: https://github.com/TomSchimansky/TkinterMapView
 
-#### Mission Planner (optional)
+#### 3. Mission Planner (optional)
 
 While **Mission Planner** is Windows-native, it can be run on Linux using **Mono**. See instructions [here](https://ardupilot.org/planner/docs/mission-planner-installation.html#mission-planner-on-linux)
 
@@ -81,12 +81,10 @@ Then, select a branch to run.
 ## Running the Simulation
 
 1. Download Mission Planner on Linux and run it in one terminal.
-2. Run the following launch file in the second terminal:
-
+3. Run the following launch file in the second terminal to launch the Gazebo world with the Ardupilot drone:
 ```bash
     roslaunch lmd_sim lmd_simulation.launch
 ```
-This will launch the Gazebo world with the Ardupilot drone. 
 4. Use Mission Planner to connect with the drone. Plan an Autonomous searching mission and write it to the drone. Also save the misison waypoints for future missions.
 5. Adjust the windows: MavProxy console, ArduCopter terminal, Gazebo Simulator, Drone Video Screen & Tkinter Mapping GUI.
 6. Right-click on the drone model in Gazebo and select Follow.
@@ -101,7 +99,9 @@ This will launch the Gazebo world with the Ardupilot drone.
 ---
 
 ## ▶️ Demonstration
+
 ![LMD Simulation](assets/lmd.png) 
-🎥 [Watch complete simulation](https://www.youtube.com/watch?v=o2FmneBpySA))
+
+🎥 [Watch complete simulation](https://www.youtube.com/watch?v=o2FmneBpySA)
 
 
