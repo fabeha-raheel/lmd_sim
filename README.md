@@ -40,25 +40,28 @@ Installation instructions for ROS Noetic can be found [here](http://wiki.ros.org
     chmod a+x install_geographiclib_datasets.sh
     ./install_geographiclib_datasets.sh
 ```
-    For more information, visit: [Installing MAVROS Guide](https://ardupilot.org/dev/docs/ros-install.html#installing-mavros)
+
+For more information, visit: [Installing MAVROS Guide](https://ardupilot.org/dev/docs/ros-install.html#installing-mavros)
 
 
 #### 2. Python Packages
     
-    Python packages for OpenCV, ROSCVBridge, Imutils, Pickle, Tkinter and [Tkintermapview](https://github.com/TomSchimansky/TkinterMapView).
+Python packages for OpenCV, ROSCVBridge, Imutils, Pickle, Tkinter and [Tkintermapview](https://github.com/TomSchimansky/TkinterMapView).
 
 ```bash
     pip install opencv-python imutils pillow
 ```
-    To install tkintermapview, refer to the following page: https://github.com/TomSchimansky/TkinterMapView
+
+To install tkintermapview, refer to the following page: https://github.com/TomSchimansky/TkinterMapView
 
 #### Mission Planner (optional)
 
-    While **Mission Planner** is Windows-native, it can be run on Linux using **Mono**. See instructions [here](https://ardupilot.org/planner/docs/mission-planner-installation.html#mission-planner-on-linux)
+While **Mission Planner** is Windows-native, it can be run on Linux using **Mono**. See instructions [here](https://ardupilot.org/planner/docs/mission-planner-installation.html#mission-planner-on-linux)
 
 ## 🚀 Pacakge Installation
 
 To install the lmd_sim package, first create a new workspace directory similar to catkin_ws in your home directory:
+
 ```bash
 cd
 mkdir -p lmd_ws/src
@@ -67,6 +70,7 @@ catkin_make
 ```
 
 Then clone the lmd_sim repository inside src:
+
 ```bash
 cd ~/lmd_ws/src
 git clone https://github.com/fabeha-raheel/lmd_sim.git
@@ -78,20 +82,21 @@ Then, select a branch to run.
 
 1. Download Mission Planner on Linux and run it in one terminal.
 2. Run the following launch file in the second terminal:
-    ```bash
+
+```bash
     roslaunch lmd_sim lmd_simulation.launch
-    ```
-    This will launch the Gazebo world with the Ardupilot drone. 
-3. Use Mission Planner to connect with the drone. Plan an Autonomous searching mission and write it to the drone. Also save the misison waypoints for future missions.
-4. Adjust the windows: MavProxy console, ArduCopter terminal, Gazebo Simulator, Drone Video Screen & Tkinter Mapping GUI.
-5. Right-click on the drone model in Gazebo and select Follow.
-6. Shift the Drone to Auto Mode using the following MAV commands:
-    ```bash
+```
+This will launch the Gazebo world with the Ardupilot drone. 
+4. Use Mission Planner to connect with the drone. Plan an Autonomous searching mission and write it to the drone. Also save the misison waypoints for future missions.
+5. Adjust the windows: MavProxy console, ArduCopter terminal, Gazebo Simulator, Drone Video Screen & Tkinter Mapping GUI.
+6. Right-click on the drone model in Gazebo and select Follow.
+7. Shift the Drone to Auto Mode using the following MAV commands:
+```bash
     mode guided
     arm throttle
     takeoff 1
     mode auto
-    ```
+```
 
 ---
 
