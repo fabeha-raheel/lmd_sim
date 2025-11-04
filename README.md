@@ -1,38 +1,60 @@
-# Realtime Landmine Detection and Mapping Drone - ROS-Gazebo Simulation
-This package simulates an autonomous landmine detection and mapping drone. For the purposes of simulation, landmines are recognized using computer vision / image processing techniques by detecting their characteristic red color. Once the landmines are detected, the drone records their GPS coordinates and updates them on a map.
+# 🛰️ Realtime Autonomous UAV for Landmine Detection, Localization, and Mapping
 
-## Contents
+This project presents a **ROS–Gazebo based simulation** of an autonomous UAV system capable of **detecting, localizing, and mapping landmines in real time** using **computer vision and GPS-based geotagging**. The system integrates **ROS, MAVROS, ArduPilot SITL, and Gazebo** to simulate a drone that autonomously surveys a terrain, identifies potential landmines based on visual cues, and plots their coordinates on a live interactive map.
 
-1. Pre-requisites
-2. Package Installation
-2. Running the Simulation
+---
 
-## Pre-requisites
-The package was tested on Ubuntu 20.04 with ROS Noetic and Gazebo installed. Instructions regarding installation of ROS Noetic can be found here. (add a hyperlink.)
+## 🎯 Key Highlights
+- **Autonomous Mission Execution:** Fully automated waypoint navigation via MAVROS and ArduPilot SITL.
+- **Realtime Landmine Detection:** Vision-based detection using **OpenCV** to identify landmines from live camera feed.
+- **Geolocation Mapping:** Logs GPS coordinates of detected landmines and displays them on a **TkinterMapView GUI** in real time.
+- **End-to-End ROS Integration:** Communication between Gazebo drone, MAVProxy, and ArduPilot for realistic flight behavior.
+- **Interactive Visualization:** Map-based GUI for monitoring detections and mission progress.
 
-The following packages also need to be installed:
+---
 
-1. MAVROS
+## 🧩 System Architecture
 
+| Component | Description |
+|------------|-------------|
+| **Gazebo Simulator** | Provides 3D simulation environment for UAV and terrain. |
+| **ArduPilot SITL** | Runs flight control logic for autonomous navigation. |
+| **ROS + MAVROS** | Middleware enabling communication between ArduPilot and ROS nodes. |
+| **Computer Vision Node** | Detects landmines using OpenCV and publishes detections to ROS topics. |
+| **Mapping GUI** | Displays detected landmine locations in real time using TkinterMapView. |
+
+---
+
+## ⚙️ Pre-requisites
+
+The package was tested on **Ubuntu 20.04** with **ROS Noetic** and **Gazebo**.  
+Installation instructions for ROS Noetic can be found [here](http://wiki.ros.org/noetic/Installation/Ubuntu).
+
+### Required Packages
+
+#### 1. MAVROS
     ```bash
     sudo apt-get install ros-noetic-mavros ros-noetic-mavros-extras
     wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh
     chmod a+x install_geographiclib_datasets.sh
     ./install_geographiclib_datasets.sh
     ```
-    For more information, visit: https://ardupilot.org/dev/docs/ros-install.html#installing-mavros
+    For more information, visit: [Installing MAVROS Guide](https://ardupilot.org/dev/docs/ros-install.html#installing-mavros)
 
-2. Python Packages
 
-    Python packages for OpenCV, ROSCVBridge, Imutils, Pickle, Tkinter and Tkintermapview.
-
+#### 2. Python Packages
+    
+    Python packages for OpenCV, ROSCVBridge, Imutils, Pickle, Tkinter and [Tkintermapview](https://github.com/TomSchimansky/TkinterMapView).
+    ```bash
+    pip install opencv-python imutils pillow
+    ```
     To install tkintermapview, refer to the following page: https://github.com/TomSchimansky/TkinterMapView
 
-3. Mission Planner (optional)
+#### Mission Planner (optional)
 
-    By default, Mission Planner is not supported by Ubuntu / Linux platforms. However, you can install Mission Planner by following the guidelines provided by this link. (add link)
+    While **Mission Planner** is Windows-native, it can be run on Linux using **Mono**. See instructions [here](https://ardupilot.org/planner/docs/mission-planner-installation.html#mission-planner-on-linux)
 
-## Package Installation
+## 🚀 Pacakge Installation
 
 To install the lmd_sim package, first create a new workspace directory similar to catkin_ws in your home directory:
 ```bash
@@ -68,5 +90,11 @@ Then, select a branch to run.
     takeoff 1
     mode auto
     ```
-    
-## Video Demonstration
+
+---
+
+## ▶️ Demonstration
+![LMD Simulation](assets/lmd.png) 
+🎥 [Watch complete simulation](https://www.youtube.com/watch?v=o2FmneBpySA))
+
+
