@@ -33,21 +33,23 @@ Installation instructions for ROS Noetic can be found [here](http://wiki.ros.org
 ### Required Packages
 
 #### 1. MAVROS
-    ```bash
+
+``` bash
     sudo apt-get install ros-noetic-mavros ros-noetic-mavros-extras
     wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh
     chmod a+x install_geographiclib_datasets.sh
     ./install_geographiclib_datasets.sh
-    ```
+```
     For more information, visit: [Installing MAVROS Guide](https://ardupilot.org/dev/docs/ros-install.html#installing-mavros)
 
 
 #### 2. Python Packages
     
     Python packages for OpenCV, ROSCVBridge, Imutils, Pickle, Tkinter and [Tkintermapview](https://github.com/TomSchimansky/TkinterMapView).
-    ```bash
+
+```bash
     pip install opencv-python imutils pillow
-    ```
+```
     To install tkintermapview, refer to the following page: https://github.com/TomSchimansky/TkinterMapView
 
 #### Mission Planner (optional)
