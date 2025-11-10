@@ -2,6 +2,10 @@
 
 This project presents a **ROS–Gazebo based simulation** of an autonomous UAV system capable of **detecting, localizing, and mapping landmines in real time** using **computer vision and GPS-based geotagging**. The system integrates **ROS, MAVROS, ArduPilot SITL, and Gazebo** to simulate a drone that autonomously surveys a terrain, identifies potential landmines based on visual cues, and plots their coordinates on a live interactive map.
 
+🎥 [Watch complete simulation](https://www.youtube.com/watch?v=o2FmneBpySA)
+
+![LMD Simulation](assets/lmd.png) 
+
 ---
 
 ## 🎯 Key Highlights
@@ -96,13 +100,6 @@ Then, select a branch to run.
     mode auto
 ```
 
----
-
-## ▶️ Demonstration
-
-🎥 [Watch complete simulation](https://www.youtube.com/watch?v=o2FmneBpySA)
-
-![LMD Simulation](assets/lmd.png) 
 
 
 
